@@ -9,12 +9,20 @@ class Base(tkinter.Tk):
 
     # initialize used to create widgets an instance of Base is created
     def initialize(self):
-        # Sets the minimum size of the frame and uses grid for layout management inside the frame
-        self.minsize(width=500, height=500)
+        # Create the parent grid and configure the column/row weights
         self.grid()
+        self.minsize(width=0, height=0)
+        self.columnconfigure(0, weight=1)
         # Create widgets below
-        label = tkinter.Label(self, pady=10, anchor="w", fg="black", text="Clones of Chaos")
-        label.grid(column=0, row=1, columnspan=2, sticky="EW")
+        label = tkinter.Label(self, anchor="w", fg="black", text="Clones of Chaos")
+        label.grid(column=0, row=0, columnspan=2, sticky="")
+        # Log in widgets
+        userlabel = tkinter.Label(self, pady=10, text="Username:")
+        userlabel.grid(column=0, row=1, sticky="w")
+        userfield = tkinter.Entry(self)
+        userfield.grid(column=1, row=1, sticky="w")
+        login = tkinter.Button(self, text="Log in", anchor="s")
+        login.grid(column=0, row=2, columnspan=2, sticky="we")
 
 # Main method runs when base.py is run
 if __name__ == "__main__":
