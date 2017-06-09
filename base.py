@@ -24,6 +24,17 @@ class Base(tkinter.Tk):
         login = tkinter.Button(self, text="Log in", anchor="s")
         login.grid(column=0, row=2, columnspan=2, sticky="we")
 
+
+class MainScreen(tkinter.Tk):
+    def __init__(self, parent):
+        tkinter.Tk.__init__(self, parent)
+        self.parent = parent
+        # print('This is the MainScreen init method')
+
+    def initialize(self):
+        # print('This is the initialize method')
+        self.grid()
+        self.minsize(width=500, height=500)
 # Main method runs when base.py is run
 if __name__ == "__main__":
     app = Base(None)  # creates an instance of Base and initializes all widgets inside initialize
