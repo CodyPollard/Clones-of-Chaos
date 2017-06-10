@@ -1,8 +1,9 @@
+import settings, os
 import tkinter
+
 
 class Base(tkinter.Tk):
     counter = 0
-
     # Base class constructor.
     def __init__(self, parent):
         tkinter.Tk.__init__(self, parent)
@@ -11,6 +12,8 @@ class Base(tkinter.Tk):
 
     # initialize used to create widgets an instance of Base is created
     def initialize(self):
+        # Variables for entry
+
         # Create the parent grid and configure the column/row weights
         self.grid()
         self.minsize(width=0, height=0)
@@ -21,17 +24,23 @@ class Base(tkinter.Tk):
         # Log in widgets
         userlabel = tkinter.Label(self, pady=10, text="Username:")
         userlabel.grid(column=0, row=1, sticky="w")
-        userfield = tkinter.Entry(self)
-        userfield.grid(column=1, row=1, sticky="w")
-        login = tkinter.Button(self, text="Log in", anchor="s")
+        self.userfield = tkinter.Entry(self)
+        self.userfield.grid(column=1, row=1, sticky="w")
+        login = tkinter.Button(self, text="Log in", anchor="s", command=self.log_in)
         login.grid(column=0, row=2, columnspan=2, sticky="we")
-        testb = tkinter.Button(self, text="Test Button", command=self.test_window)
-        testb.grid(column=0, row=3)
 
-    def test_window(self):
-        self.counter += 1
+    def log_in(self):
+        # Local Variables
+        u = settings.SAVEGAME_PATH + "/" + self.userfield.get().lower()
+        if os.path.isdir(u):
+            print('This path exists!')
+        else:
+            os.mkdir(u)
+
+
+        # Create window
         twindow = tkinter.Toplevel(self)
-        twindow.title('Test Window')
+        twindow.title(self.userfield.get())
         twindow.grid()
         twindow.geometry("+600+350")
 
