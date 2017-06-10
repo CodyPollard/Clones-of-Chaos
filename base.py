@@ -1,4 +1,4 @@
-import settings, os
+import settings, test_window, os
 import tkinter
 
 
@@ -29,9 +29,14 @@ class Base(tkinter.Tk):
         login = tkinter.Button(self, text="Log in", anchor="s", command=self.log_in)
         login.grid(column=0, row=2, columnspan=2, sticky="we")
 
+        # Testing window button
+        # self.testB = tkinter.Button(self, text="Test Button", command=test_window.Base(None))
+        # self.testB.grid(column=0, row=3)
+
     def log_in(self):
         # Local Variables
         u = settings.SAVEGAME_PATH + "/" + self.userfield.get().lower()
+        # Check if player's profile exists when logging in. If not, create it.
         if os.path.isdir(u):
             print('This path exists!')
         else:
