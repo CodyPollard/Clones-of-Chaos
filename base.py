@@ -1,6 +1,8 @@
 import tkinter
 
 class Base(tkinter.Tk):
+    counter = 0
+
     # Base class constructor.
     def __init__(self, parent):
         tkinter.Tk.__init__(self, parent)
@@ -23,20 +25,19 @@ class Base(tkinter.Tk):
         userfield.grid(column=1, row=1, sticky="w")
         login = tkinter.Button(self, text="Log in", anchor="s")
         login.grid(column=0, row=2, columnspan=2, sticky="we")
+        testb = tkinter.Button(self, text="Test Button", command=self.test_window)
+        testb.grid(column=0, row=3)
 
+    def test_window(self):
+        self.counter += 1
+        twindow = tkinter.Toplevel(self)
+        twindow.title('Test Window')
+        twindow.grid()
+        twindow.geometry("+600+350")
 
-class MainScreen(tkinter.Tk):
-    def __init__(self, parent):
-        tkinter.Tk.__init__(self, parent)
-        self.parent = parent
-        # print('This is the MainScreen init method')
-
-    def initialize(self):
-        # print('This is the initialize method')
-        self.grid()
-        self.minsize(width=500, height=500)
 # Main method runs when base.py is run
 if __name__ == "__main__":
     app = Base(None)  # creates an instance of Base and initializes all widgets inside initialize
     app.title('Clones of Chaos')
+    app.geometry("+600+350")
     app.mainloop()
