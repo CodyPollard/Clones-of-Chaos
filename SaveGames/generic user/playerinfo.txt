@@ -1,1 +1,7 @@
-This is a player info file
+Name
+Race
+ArmySize
+ArmyStr
+ArmyDef
+SpyStr
+SpyDef

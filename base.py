@@ -1,4 +1,4 @@
-import settings, test_window, os
+import settings, os, player
 import tkinter
 
 
@@ -12,8 +12,6 @@ class Base(tkinter.Tk):
 
     # initialize used to create widgets an instance of Base is created
     def initialize(self):
-        # Variables for entry
-
         # Create the parent grid and configure the column/row weights
         self.grid()
         self.minsize(width=0, height=0)
@@ -38,16 +36,19 @@ class Base(tkinter.Tk):
         u = settings.SAVEGAME_PATH + "/" + self.userfield.get().lower()
         # Check if player's profile exists when logging in. If not, create it.
         if os.path.isdir(u):
-            print('This path exists!')
+            self.main_window()
+            # print("This should run main_window")
+            p = player.PlayerInfo(u)
+            p.FormatInfo()
         else:
             os.mkdir(u)
 
-
+    def main_window(self):
         # Create window
-        twindow = tkinter.Toplevel(self)
-        twindow.title(self.userfield.get())
-        twindow.grid()
-        twindow.geometry("+600+350")
+        mainscreen = tkinter.Toplevel(self)
+        mainscreen.title(self.userfield.get())
+        mainscreen.grid()
+        mainscreen.geometry("+600+350")
 
 # Main method runs when base.py is run
 if __name__ == "__main__":
