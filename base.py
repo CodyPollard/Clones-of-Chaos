@@ -36,17 +36,19 @@ class Base(tkinter.Tk):
         u = settings.SAVEGAME_PATH + "/" + self.userfield.get().lower()
         # Check if player's profile exists when logging in. If not, create it.
         if os.path.isdir(u):
-            self.main_window()
             # print("This should run main_window")
             p = player.PlayerInfo(u)
             p.FormatInfo()
+            self.main_window(p)
         else:
             os.mkdir(u)
 
-    def main_window(self):
+    # Accepts the PlayerInfo object from log_in after a user successfuly logs in
+    def main_window(self, profile):
+        p = profile
         # Create window
         mainscreen = tkinter.Toplevel(self)
-        mainscreen.title(self.userfield.get())
+        mainscreen.title(p.Name)
         mainscreen.grid()
         mainscreen.geometry("+600+350")
 

@@ -3,7 +3,7 @@ class PlayerInfo:
     # Variables for Player
     lineArray = []
     playerValues = []
-    name = ""
+    Name = ""
     Race = ""
     ArmySize = 0
     ArmyStr = 0
@@ -28,15 +28,19 @@ class PlayerInfo:
             self.playerValues.append(test[1])
 
         # Format into class variables
-        self.name = self.playerValues[0]
-        self.race = self.playerValues[1]
+        self.Name = self.playerValues[0]
+        self.Race = self.playerValues[1]
         self.ArmySize = self.playerValues[2]
         self.ArmyStr = self.playerValues[3]
         self.ArmyDef = self.playerValues[4]
         self.SpyStr = self.playerValues[5]
         self.SpyDef = self.playerValues[6]
 
-    def NumpyTest(self):
-        print(self.playerArray)
+    def PrintInfo(self):
+        print(self.Name)
+        print(self.Race)
+        print(self.ArmyDef)
+        print(self.SpyDef)
+        print(self.SpyStr)
 
 
