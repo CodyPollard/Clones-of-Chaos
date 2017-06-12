@@ -1,7 +1,8 @@
-Name
-Race
-ArmySize
-ArmyStr
-ArmyDef
-SpyStr
-SpyDef
+### Player info file contains values for player stats ###
+Name=Generic User
+Race=Human
+ArmySize=100
+ArmyStr=10
+ArmyDef=10
+SpyStr=5
+SpyDef=5

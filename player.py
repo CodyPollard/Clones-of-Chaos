@@ -1,7 +1,8 @@
-import base
-
+# PlayerInfo class handles all things related to a players stats and Army
 class PlayerInfo:
     # Variables for Player
+    lineArray = []
+    playerValues = []
     name = ""
     Race = ""
     ArmySize = 0
@@ -10,15 +11,32 @@ class PlayerInfo:
     SpyStr = 0
     SpyDef = 0
 
+    # Accepts the filepath for playerinfo from base.py and reads the contents
+    # into an array
     def __init__(self, player):
         self.player = player
+        with open(self.player + "/playerinfo.txt", "r") as f:
+            for i in f:
+                self.lineArray = f.read().splitlines()
 
     def PrintPlayer(self):
         print(self.player)
 
     def FormatInfo(self):
-        # Open playerinfo file
-        f = open(self.player + "/playerinfo.txt", "r")
-        print(f.read())
+        for i, list in enumerate(self.lineArray):
+            test = self.lineArray[i].split('=')
+            self.playerValues.append(test[1])
+
+        # Format into class variables
+        self.name = self.playerValues[0]
+        self.race = self.playerValues[1]
+        self.ArmySize = self.playerValues[2]
+        self.ArmyStr = self.playerValues[3]
+        self.ArmyDef = self.playerValues[4]
+        self.SpyStr = self.playerValues[5]
+        self.SpyDef = self.playerValues[6]
+
+    def NumpyTest(self):
+        print(self.playerArray)
 
 
