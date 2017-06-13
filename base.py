@@ -24,6 +24,7 @@ class Base(tkinter.Tk):
         userlabel.grid(column=0, row=1, sticky="w")
         self.userfield = tkinter.Entry(self)
         self.userfield.grid(column=1, row=1, sticky="w")
+        self.userfield.focus_set()
         login = tkinter.Button(self, text="Log in", anchor="s", command=self.log_in)
         login.grid(column=0, row=2, columnspan=2, sticky="we")
 
@@ -51,6 +52,35 @@ class Base(tkinter.Tk):
         mainscreen.title(p.Name)
         mainscreen.grid()
         mainscreen.geometry("+600+350")
+        labelTop = tkinter.Label(mainscreen, anchor="w", fg="black", text="Your Stats")
+        labelTop.grid(column=0, row=0, columnspan=4)
+        # Column 0 labels
+        labelRace = tkinter.Label(mainscreen, anchor="w", fg="black", text="Race: ")
+        labelRace.grid(column=0, row=1)
+        labelArmy = tkinter.Label(mainscreen, anchor="w", fg="black", text="Army Size: ")
+        labelArmy.grid(column=0, row=2)
+        labelAstr = tkinter.Label(mainscreen, anchor="w", fg="black", text="Army Strength: ")
+        labelAstr.grid(column=0, row=3)
+        labelAdef = tkinter.Label(mainscreen, anchor="w", fg="black", text="Army Defense: ")
+        labelAdef.grid(column=0, row=4)
+        labelSpyStr = tkinter.Label(mainscreen, anchor="w", fg="black", text="Spy Strength: ")
+        labelSpyStr.grid(column=0, row=5)
+        labelSpyDef = tkinter.Label(mainscreen, anchor="w", fg="black", text="Spy Defense: ")
+        labelSpyDef.grid(column=0, row=6)
+
+        # Column 1 labels
+        dataRace = tkinter.Label(mainscreen, anchor="e", text=p.Race)
+        dataRace.grid(column=1, row=1)
+        dataArmy = tkinter.Label(mainscreen, anchor="e", text=p.ArmySize)
+        dataArmy.grid(column=1, row=2)
+        dataAstr = tkinter.Label(mainscreen, anchor="e", text=p.ArmyStr)
+        dataAstr.grid(column=1, row=3)
+        dataAdef = tkinter.Label(mainscreen, anchor="e", text=p.ArmyDef)
+        dataAdef.grid(column=1, row=4)
+        dataSpyStr = tkinter.Label(mainscreen, anchor="e", text=p.SpyStr)
+        dataSpyStr.grid(column=1, row=5)
+        dataSpyDef = tkinter.Label(mainscreen, anchor="e", text=p.SpyDef)
+        dataSpyDef.grid(column=1, row=6)
 
 # Main method runs when base.py is run
 if __name__ == "__main__":

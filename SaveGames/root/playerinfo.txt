@@ -1,0 +1,8 @@
+### Player info file contains values for player stats ###
+Name=Root
+Race=Human
+ArmySize=100
+ArmyStr=10
+ArmyDef=10
+SpyStr=5
+SpyDef=5
