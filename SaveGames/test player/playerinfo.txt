@@ -1,0 +1,8 @@
+### Player info file contains values for player stats ###
+Name=
+Race=
+ArmySize=100
+ArmyStr=10
+ArmyDef=10
+SpyStr=10
+SpyDef=10

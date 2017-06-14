@@ -86,23 +86,31 @@ class Login(tkinter.Tk):
             Base(None)
             self.destroy()
         else:
-            self.new_game_prompt()
-            os.mkdir(u)
+            self.new_game_prompt(u)
+
 
     # Display new game prompt if user profile doesn't exist
-    def new_game_prompt(self):
+    def new_game_prompt(self, u):
+        u = u
         # Prompt
         newgamePrompt = tkinter.Toplevel(self)
         l = tkinter.Label(newgamePrompt, text="That profile does not exist, would you like to create it?")
-        yesBtn = tkinter.Button(newgamePrompt, text="Yes", command=self.new_game_raceselect)
-        noBtn = tkinter.Button(newgamePrompt, text="No")
+        yesBtn = tkinter.Button(newgamePrompt, text="Yes", command= lambda: self.create_profile(u))
+        noBtn = tkinter.Button(newgamePrompt, text="No", command=newgamePrompt.destroy)
         newgamePrompt.grid()
         newgamePrompt.geometry("+600+350")
         l.grid()
         yesBtn.grid()
         noBtn.grid()
 
-    def new_game_raceselect(self):
+    def create_profile(self, u):
+        u = u
+        os.mkdir(u)
+        p = player.PlayerInfo(u)
+        self.new_game_raceselect(p)
+
+
+    def new_game_raceselect(self, p):
         # Create window
         raceselectWindow = tkinter.Toplevel(self)
         raceselectWindow.title()

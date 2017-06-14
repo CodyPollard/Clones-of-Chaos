@@ -1,3 +1,4 @@
+import os.path
 # PlayerInfo class handles all things related to a players stats and Army
 class PlayerInfo:
     # Variables for Player
@@ -14,10 +15,14 @@ class PlayerInfo:
     # Accepts the filepath for playerinfo from base.py and reads the contents
     # into an array
     def __init__(self, player):
-        self.player = player
-        with open(self.player + "/playerinfo.txt", "r") as f:
-            for i in f:
-                self.lineArray = f.read().splitlines()
+        self.player = player + "/playerinfo.txt"
+        if os.path.isfile(self.player):
+            with open(self.player, "r") as f:
+                for i in f:
+                    self.lineArray = f.read().splitlines()
+        else:
+            self.initialize_player()
+
 
     def PrintPlayer(self):
         print(self.player)
@@ -43,4 +48,14 @@ class PlayerInfo:
         print(self.SpyDef)
         print(self.SpyStr)
 
-
+    def initialize_player(self):
+        f = open(self.player, "w")
+        f.write("### Player info file contains values for player stats ###\n")
+        f.write("Name=\n")
+        f.write("Race=\n")
+        f.write("ArmySize=100\n")
+        f.write("ArmyStr=10\n")
+        f.write("ArmyDef=10\n")
+        f.write("SpyStr=10\n")
+        f.write("SpyDef=10")
+        f.close()
