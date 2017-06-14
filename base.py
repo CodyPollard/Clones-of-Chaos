@@ -5,18 +5,18 @@ import tkinter
 class Base(tkinter.Tk):
     counter = 0
     # Base class constructor
-    def __init__(self, master):
+    def __init__(self, master, PlayerInfo):
         tkinter.Tk.__init__(self, master)
         self.master = master
+        self.p = PlayerInfo
         self.main_window()
 
     # Accepts the PlayerInfo object from log_in after a user successfuly logs in
     def main_window(self):
-        # p = self.profile
         # Create window
         #self.title("whats this")
         #mainscreen = tkinter.Toplevel(self)
-        self.title("p.Name")
+        self.title(self.p.Name)
         self.grid()
         self.geometry("+600+350")
         labelTop = tkinter.Label(self, anchor="w", fg="black", text="Your Stats")
@@ -36,17 +36,17 @@ class Base(tkinter.Tk):
         labelSpyDef.grid(column=0, row=6)
 
         # Column 1 labels
-        dataRace = tkinter.Label(self, anchor="e", text="p.Race")
+        dataRace = tkinter.Label(self, anchor="e", text=self.p.Race)
         dataRace.grid(column=1, row=1)
-        dataArmy = tkinter.Label(self, anchor="e", text="p.ArmySize")
+        dataArmy = tkinter.Label(self, anchor="e", text=self.p.ArmySize)
         dataArmy.grid(column=1, row=2)
-        dataAstr = tkinter.Label(self, anchor="e", text="p.ArmyStr")
+        dataAstr = tkinter.Label(self, anchor="e", text=self.p.ArmyStr)
         dataAstr.grid(column=1, row=3)
-        dataAdef = tkinter.Label(self, anchor="e", text="p.ArmyDef")
+        dataAdef = tkinter.Label(self, anchor="e", text=self.p.ArmyDef)
         dataAdef.grid(column=1, row=4)
-        dataSpyStr = tkinter.Label(self, anchor="e", text="p.SpyStr")
+        dataSpyStr = tkinter.Label(self, anchor="e", text=self.p.SpyStr)
         dataSpyStr.grid(column=1, row=5)
-        dataSpyDef = tkinter.Label(self, anchor="e", text="p.SpyDef")
+        dataSpyDef = tkinter.Label(self, anchor="e", text=self.p.SpyDef)
         dataSpyDef.grid(column=1, row=6)
 
 class Login(tkinter.Tk):
@@ -83,7 +83,7 @@ class Login(tkinter.Tk):
         if os.path.isdir(u):
             p = player.PlayerInfo(u)
             p.FormatInfo()
-            Base(None)
+            Base(None, p)
             self.destroy()
         else:
             self.new_game_prompt(u)
@@ -107,17 +107,27 @@ class Login(tkinter.Tk):
         u = u
         os.mkdir(u)
         p = player.PlayerInfo(u)
-        self.new_game_raceselect(p)
+        self.select_race(p)
+        # Destroy the newgamePrompt window here
 
 
-    def new_game_raceselect(self, p):
+    def select_race(self, p):
         # Create window
-        raceselectWindow = tkinter.Toplevel(self)
-        raceselectWindow.title()
-        raceselectWindow.grid()
-        raceselectWindow.geometry("+600+350")
-        labelTop = tkinter.Label(raceselectWindow, anchor="w", fg="black", text="Choose Your Race")
+        selectrace = tkinter.Toplevel(self)
+        selectrace.title()
+        selectrace.grid()
+        selectrace.geometry("+600+350")
+        labelTop = tkinter.Label(selectrace, anchor="w", fg="black", text="Choose Your Race")
         labelTop.grid(column=0, row=0, columnspan=4)
+        # Labels
+        humanLbl = tkinter.Label(selectrace, anchor="w", text="Human")
+        humanLbl.grid()
+        orcLbl = tkinter.Label(selectrace, anchor="w", text="Orc")
+        orcLbl.grid()
+        elfLbl = tkinter.Label(selectrace, anchor="w", text="Elf")
+        elfLbl.grid()
+        dwarfLbl = tkinter.Label(selectrace, anchor="w", text="Dwarf")
+        dwarfLbl.grid()
 
 
 # Main method runs when base.py is run

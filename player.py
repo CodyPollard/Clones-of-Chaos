@@ -1,6 +1,9 @@
 import os.path
 # PlayerInfo class handles all things related to a players stats and Army
-class PlayerInfo:
+
+
+class PlayerInfo(object):
+
     # Variables for Player
     lineArray = []
     playerValues = []
