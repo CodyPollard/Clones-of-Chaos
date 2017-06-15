@@ -17,8 +17,12 @@ class PlayerInfo(object):
 
     # Accepts the filepath for playerinfo from base.py and reads the contents
     # into an array
-    def __init__(self, player):
+    def __init__(self, player, pname):
+        # Passed variables are the player's profile folder and player's name
         self.player = player + "/playerinfo.txt"
+        self.pname = pname
+        # When an instance of PlayerInfo is created, checks to see if the profile already exists.
+        # Otherwise it creates one.
         if os.path.isfile(self.player):
             with open(self.player, "r") as f:
                 for i in f:
@@ -26,15 +30,11 @@ class PlayerInfo(object):
         else:
             self.initialize_player()
 
-
-    def PrintPlayer(self):
-        print(self.player)
-
+    # Takes playerinfo.txt and reads their stats into class variables for the PlayerInfo object
     def FormatInfo(self):
         for i, list in enumerate(self.lineArray):
             test = self.lineArray[i].split('=')
             self.playerValues.append(test[1])
-
         # Format into class variables
         self.Name = self.playerValues[0]
         self.Race = self.playerValues[1]
@@ -44,17 +44,19 @@ class PlayerInfo(object):
         self.SpyStr = self.playerValues[5]
         self.SpyDef = self.playerValues[6]
 
-    def PrintInfo(self):
+    # Used to print a player's stats
+    def printinfo(self):
         print(self.Name)
         print(self.Race)
         print(self.ArmyDef)
         print(self.SpyDef)
         print(self.SpyStr)
 
+    # Creates a playerinfo.txt for the user if none exists
     def initialize_player(self):
         f = open(self.player, "w")
         f.write("### Player info file contains values for player stats ###\n")
-        f.write("Name=\n")
+        f.write("Name=" + self.pname + "\n")
         f.write("Race=\n")
         f.write("ArmySize=100\n")
         f.write("ArmyStr=10\n")

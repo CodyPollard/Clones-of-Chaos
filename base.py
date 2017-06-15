@@ -2,8 +2,8 @@ import settings, os, player
 import tkinter
 
 
+# Main player screen. Used after Login is successful
 class Base(tkinter.Tk):
-    counter = 0
     # Base class constructor
     def __init__(self, master, PlayerInfo):
         tkinter.Tk.__init__(self, master)
@@ -14,14 +14,12 @@ class Base(tkinter.Tk):
     # Accepts the PlayerInfo object from log_in after a user successfuly logs in
     def main_window(self):
         # Create window
-        #self.title("whats this")
-        #mainscreen = tkinter.Toplevel(self)
         self.title(self.p.Name)
         self.grid()
         self.geometry("+600+350")
         labelTop = tkinter.Label(self, anchor="w", fg="black", text="Your Stats")
         labelTop.grid(column=0, row=0, columnspan=4)
-        # Column 0 labels
+        # Left column
         labelRace = tkinter.Label(self, anchor="w", fg="black", text="Race: ")
         labelRace.grid(column=0, row=1)
         labelArmy = tkinter.Label(self, anchor="w", fg="black", text="Army Size: ")
@@ -34,8 +32,7 @@ class Base(tkinter.Tk):
         labelSpyStr.grid(column=0, row=5)
         labelSpyDef = tkinter.Label(self, anchor="w", fg="black", text="Spy Defense: ")
         labelSpyDef.grid(column=0, row=6)
-
-        # Column 1 labels
+        # Right column
         dataRace = tkinter.Label(self, anchor="e", text=self.p.Race)
         dataRace.grid(column=1, row=1)
         dataArmy = tkinter.Label(self, anchor="e", text=self.p.ArmySize)
@@ -49,8 +46,9 @@ class Base(tkinter.Tk):
         dataSpyDef = tkinter.Label(self, anchor="e", text=self.p.SpyDef)
         dataSpyDef.grid(column=1, row=6)
 
+
+# Login class handles creation and continuation of player profiles
 class Login(tkinter.Tk):
-    counter = 0
 
     # Base class constructor.
     def __init__(self, parent):
@@ -88,15 +86,15 @@ class Login(tkinter.Tk):
         else:
             self.new_game_prompt(u)
 
-
     # Display new game prompt if user profile doesn't exist
     def new_game_prompt(self, u):
-        u = u
-        # Prompt
+        # Prompt user for profile creation
         newgamePrompt = tkinter.Toplevel(self)
         l = tkinter.Label(newgamePrompt, text="That profile does not exist, would you like to create it?")
-        yesBtn = tkinter.Button(newgamePrompt, text="Yes", command= lambda: self.create_profile(u))
+        # Buttons
+        yesBtn = tkinter.Button(newgamePrompt, text="Yes", command=lambda: self.create_profile(u))
         noBtn = tkinter.Button(newgamePrompt, text="No", command=newgamePrompt.destroy)
+        # Create window and widgets
         newgamePrompt.grid()
         newgamePrompt.geometry("+600+350")
         l.grid()
@@ -104,12 +102,11 @@ class Login(tkinter.Tk):
         noBtn.grid()
 
     def create_profile(self, u):
-        u = u
+        pname = self.userfield.get()
         os.mkdir(u)
-        p = player.PlayerInfo(u)
+        p = player.PlayerInfo(u, pname)
         self.select_race(p)
         # Destroy the newgamePrompt window here
-
 
     def select_race(self, p):
         # Create window
@@ -119,16 +116,15 @@ class Login(tkinter.Tk):
         selectrace.geometry("+600+350")
         labelTop = tkinter.Label(selectrace, anchor="w", fg="black", text="Choose Your Race")
         labelTop.grid(column=0, row=0, columnspan=4)
-        # Labels
-        humanBtn = tkinter.Button(selectrace, text="Human", command=p.set_race("Human"))
+        # Buttons
+        humanBtn = tkinter.Button(selectrace, text="Human", command=lambda: p.set_race("Human"))
         humanBtn.grid(sticky="we", columnspan=5)
-        orcBtn = tkinter.Button(selectrace, text="Orc", command=p.set_race("Orc"))
+        orcBtn = tkinter.Button(selectrace, text="Orc", command=lambda: p.set_race("Orc"))
         orcBtn.grid(sticky="we", columnspan=5)
-        elfBtn = tkinter.Button(selectrace, text="Elf", command=p.set_race("Elf"))
+        elfBtn = tkinter.Button(selectrace, text="Elf", command=lambda: p.set_race("Elf"))
         elfBtn.grid(sticky="we", columnspan=5)
-        dwarfBtn = tkinter.Button(selectrace, text="Dwarf", command=p.set_race("Dwarf"))
+        dwarfBtn = tkinter.Button(selectrace, text="Dwarf", command=lambda: p.set_race("Dwarf"))
         dwarfBtn.grid(sticky="we", columnspan=5)
-
 
 # Main method runs when base.py is run
 if __name__ == "__main__":

@@ -15,7 +15,10 @@ class Test_Case():
         print(self.root.set_race())
         print("End of test")
 
+    def checkplayer(self):
+        print(self.root.player)
+
 
 if __name__ == "__main__":
     t = Test_Case()
-    t.changerace()
+    t.checkplayer()

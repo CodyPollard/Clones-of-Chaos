@@ -1,8 +1,8 @@
 ### Player info file contains values for player stats ###
-Name=Root
-Race=Orc
+Name=testingDwarf
+Race=Meme
 ArmySize=100
 ArmyStr=10
 ArmyDef=10
-SpyStr=5
-SpyDef=5
+SpyStr=10
+SpyDef=10

@@ -1,6 +1,6 @@
 ### Player info file contains values for player stats ###
-Name=
-Race=Dwarf
+Name=testingELF
+Race=Elf
 ArmySize=100
 ArmyStr=10
 ArmyDef=10
