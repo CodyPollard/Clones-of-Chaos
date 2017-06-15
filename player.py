@@ -1,4 +1,4 @@
-import os.path
+import os.path, fileinput, sys
 # PlayerInfo class handles all things related to a players stats and Army
 
 
@@ -62,3 +62,10 @@ class PlayerInfo(object):
         f.write("SpyStr=10\n")
         f.write("SpyDef=10")
         f.close()
+
+    def set_race(self, race):
+        for line in fileinput.input(self.player, inplace=1):
+            if "Race=" in line:
+                print("Race="+race)
+            else:
+                sys.stdout.write(line)

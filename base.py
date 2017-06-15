@@ -120,14 +120,14 @@ class Login(tkinter.Tk):
         labelTop = tkinter.Label(selectrace, anchor="w", fg="black", text="Choose Your Race")
         labelTop.grid(column=0, row=0, columnspan=4)
         # Labels
-        humanLbl = tkinter.Label(selectrace, anchor="w", text="Human")
-        humanLbl.grid()
-        orcLbl = tkinter.Label(selectrace, anchor="w", text="Orc")
-        orcLbl.grid()
-        elfLbl = tkinter.Label(selectrace, anchor="w", text="Elf")
-        elfLbl.grid()
-        dwarfLbl = tkinter.Label(selectrace, anchor="w", text="Dwarf")
-        dwarfLbl.grid()
+        humanBtn = tkinter.Button(selectrace, text="Human", command=p.set_race("Human"))
+        humanBtn.grid(sticky="we", columnspan=5)
+        orcBtn = tkinter.Button(selectrace, text="Orc", command=p.set_race("Orc"))
+        orcBtn.grid(sticky="we", columnspan=5)
+        elfBtn = tkinter.Button(selectrace, text="Elf", command=p.set_race("Elf"))
+        elfBtn.grid(sticky="we", columnspan=5)
+        dwarfBtn = tkinter.Button(selectrace, text="Dwarf", command=p.set_race("Dwarf"))
+        dwarfBtn.grid(sticky="we", columnspan=5)
 
 
 # Main method runs when base.py is run
