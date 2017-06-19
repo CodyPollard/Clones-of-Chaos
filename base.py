@@ -74,6 +74,7 @@ class Login(tkinter.Tk):
         login = tkinter.Button(self, text="Log in", anchor="s", command=self.load_game)
         login.grid(column=0, row=2, columnspan=2, sticky="we")
 
+
     def load_game(self):
         # Local Variables
         u = settings.SAVEGAME_PATH + "/" + self.userfield.get().lower()
@@ -89,14 +90,14 @@ class Login(tkinter.Tk):
     # Display new game prompt if user profile doesn't exist
     def new_game_prompt(self, u):
         # Prompt user for profile creation
-        newgamePrompt = tkinter.Toplevel(self)
-        l = tkinter.Label(newgamePrompt, text="That profile does not exist, would you like to create it?")
+        self.newgamePrompt = tkinter.Toplevel(self)
+        l = tkinter.Label(self.newgamePrompt, text="That profile does not exist, would you like to create it?")
         # Buttons
-        yesBtn = tkinter.Button(newgamePrompt, text="Yes", command=lambda: self.create_profile(u))
-        noBtn = tkinter.Button(newgamePrompt, text="No", command=newgamePrompt.destroy)
+        yesBtn = tkinter.Button(self.newgamePrompt, text="Yes", command=lambda: self.create_profile(u))
+        noBtn = tkinter.Button(self.newgamePrompt, text="No", command=self.newgamePrompt.destroy)
         # Create window and widgets
-        newgamePrompt.grid()
-        newgamePrompt.geometry("+600+350")
+        self.newgamePrompt.grid()
+        self.newgamePrompt.geometry("+600+350")
         l.grid()
         yesBtn.grid()
         noBtn.grid()
@@ -106,25 +107,41 @@ class Login(tkinter.Tk):
         os.mkdir(u)
         p = player.PlayerInfo(u, pname)
         self.select_race(p)
-        # Destroy the newgamePrompt window here
+        # Destroy the newgameprompt
+        self.newgamePrompt.destroy()
 
     def select_race(self, p):
         # Create window
-        selectrace = tkinter.Toplevel(self)
-        selectrace.title()
-        selectrace.grid()
-        selectrace.geometry("+600+350")
-        labelTop = tkinter.Label(selectrace, anchor="w", fg="black", text="Choose Your Race")
+        self.selectrace = tkinter.Toplevel(self)
+        self.selectrace.title()
+        self.selectrace.grid()
+        self.selectrace.geometry("+600+350")
+        labelTop = tkinter.Label(self.selectrace, anchor="w", fg="black", text="Choose Your Race")
         labelTop.grid(column=0, row=0, columnspan=4)
         # Buttons
-        humanBtn = tkinter.Button(selectrace, text="Human", command=lambda: p.set_race("Human"))
+        humanBtn = tkinter.Button(self.selectrace, text="Human", command=lambda: self.button_set_race(p, "Human"))
         humanBtn.grid(sticky="we", columnspan=5)
-        orcBtn = tkinter.Button(selectrace, text="Orc", command=lambda: p.set_race("Orc"))
+        orcBtn = tkinter.Button(self.selectrace, text="Orc", command=lambda: self.button_set_race(p, "Orc"))
         orcBtn.grid(sticky="we", columnspan=5)
-        elfBtn = tkinter.Button(selectrace, text="Elf", command=lambda: p.set_race("Elf"))
+        elfBtn = tkinter.Button(self.selectrace, text="Elf", command=lambda: self.button_set_race(p, "Elf"))
         elfBtn.grid(sticky="we", columnspan=5)
-        dwarfBtn = tkinter.Button(selectrace, text="Dwarf", command=lambda: p.set_race("Dwarf"))
+        dwarfBtn = tkinter.Button(self.selectrace, text="Dwarf", command=lambda: self.button_set_race(p, "Dwarf"))
         dwarfBtn.grid(sticky="we", columnspan=5)
+
+    def button_set_race(self, p, race):
+        p.set_race(race)
+        # Test output
+        # print("Testing in button_set_race\n-----------------")
+        # print(p.printinfo())
+        # print("---------------\n")
+        # print(p.Name)
+        # p.FormatInfo()
+        # print(p.printinfo())
+
+        # Create Base class with new profile and destroy Login class
+        # p.FormatInfo()
+        # Base(None, p)
+        # self.destroy()
 
 # Main method runs when base.py is run
 if __name__ == "__main__":
