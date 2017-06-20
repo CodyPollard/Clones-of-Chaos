@@ -23,6 +23,7 @@ class CreatePlayer():
                 cur = con.cursor()
                 cur.execute("CREATE TABLE Players(Id INT, Name TEXT, Race TEXT)")
                 cur.execute("INSERT INTO Players VALUES(1, ?, ?)", (self.pname, race))
+        print("Game Created!")
 
     # Checks to see if database exist for the player and creates them
     def initialize_player(self):
@@ -62,9 +63,13 @@ class CreatePlayer():
                 cur.execute("INSERT INTO CastleUpgrades VALUES(3, 'Burning Oil', 8, 0)")
                 cur.execute("INSERT INTO CastleUpgrades VALUES(4, 'Moat', 15, 0)")
 
+        print("Player Initialized Succesfully!")
+
+
+
 # Run player.py to run these tests
 if __name__ == "__main__":
-    c = CreatePlayer("root")
+    c = CreatePlayer("ahhahahahasjdjasdjasdjasdj")
     print(c.filepath)
     c.initialize_game("Elf")
     c.initialize_player()

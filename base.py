@@ -1,20 +1,19 @@
-import settings, os, player
+import settings, os, player, time
 import tkinter
 
 
 # Main player screen. Used after Login is successful
 class Base(tkinter.Tk):
     # Base class constructor
-    def __init__(self, master, PlayerInfo):
+    def __init__(self, master):
         tkinter.Tk.__init__(self, master)
         self.master = master
-        self.p = PlayerInfo
         self.main_window()
 
     # Accepts the PlayerInfo object from log_in after a user successfuly logs in
     def main_window(self):
         # Create window
-        self.title(self.p.Name)
+        self.title("This is the BASE window")
         self.grid()
         self.geometry("+600+350")
         labelTop = tkinter.Label(self, anchor="w", fg="black", text="Your Stats")
@@ -33,17 +32,17 @@ class Base(tkinter.Tk):
         labelSpyDef = tkinter.Label(self, anchor="w", fg="black", text="Spy Defense: ")
         labelSpyDef.grid(column=0, row=6)
         # Right column
-        dataRace = tkinter.Label(self, anchor="e", text=self.p.Race)
+        dataRace = tkinter.Label(self, anchor="e", text="Race")
         dataRace.grid(column=1, row=1)
-        dataArmy = tkinter.Label(self, anchor="e", text=self.p.ArmySize)
+        dataArmy = tkinter.Label(self, anchor="e", text="Army Size")
         dataArmy.grid(column=1, row=2)
-        dataAstr = tkinter.Label(self, anchor="e", text=self.p.ArmyStr)
+        dataAstr = tkinter.Label(self, anchor="e", text="Army Strength")
         dataAstr.grid(column=1, row=3)
-        dataAdef = tkinter.Label(self, anchor="e", text=self.p.ArmyDef)
+        dataAdef = tkinter.Label(self, anchor="e", text="Army Def")
         dataAdef.grid(column=1, row=4)
-        dataSpyStr = tkinter.Label(self, anchor="e", text=self.p.SpyStr)
+        dataSpyStr = tkinter.Label(self, anchor="e", text="Spy Strength")
         dataSpyStr.grid(column=1, row=5)
-        dataSpyDef = tkinter.Label(self, anchor="e", text=self.p.SpyDef)
+        dataSpyDef = tkinter.Label(self, anchor="e", text="Spy Def")
         dataSpyDef.grid(column=1, row=6)
 
 
@@ -54,6 +53,8 @@ class Login(tkinter.Tk):
     def __init__(self, parent):
         tkinter.Tk.__init__(self, parent)
         self.parent = parent
+        self.pname = ""
+        self.prace = ""
         self.log_in()
 
     # initialize used to create widgets an instance of Base is created
@@ -76,24 +77,34 @@ class Login(tkinter.Tk):
 
 
     def load_game(self):
-        # Local Variables
-        u = settings.SAVEGAME_PATH + "/" + self.userfield.get().lower()
+        # Variables
+        self.pname = self.userfield.get().lower()
+        u = settings.SAVEGAME_PATH + "/" + self.pname
         # Check if player's profile exists when logging in. If not, create it.
+        #
+        #
+        #
+        # Come back to do this
+        #
+        #
+        #
+        #
         if os.path.isdir(u):
-            p = player.PlayerInfo(u)
-            p.FormatInfo()
-            Base(None, p)
+            # Create Player object
+            # Create window from Base and destroy Login
+            Base(None)
             self.destroy()
         else:
-            self.new_game_prompt(u)
+            # Start the new game process
+            self.new_game_prompt()
 
     # Display new game prompt if user profile doesn't exist
-    def new_game_prompt(self, u):
+    def new_game_prompt(self):
         # Prompt user for profile creation
         self.newgamePrompt = tkinter.Toplevel(self)
         l = tkinter.Label(self.newgamePrompt, text="That profile does not exist, would you like to create it?")
         # Buttons
-        yesBtn = tkinter.Button(self.newgamePrompt, text="Yes", command=lambda: self.create_profile(u))
+        yesBtn = tkinter.Button(self.newgamePrompt, text="Yes", command=lambda: self.create_profile())
         noBtn = tkinter.Button(self.newgamePrompt, text="No", command=self.newgamePrompt.destroy)
         # Create window and widgets
         self.newgamePrompt.grid()
@@ -102,15 +113,13 @@ class Login(tkinter.Tk):
         yesBtn.grid()
         noBtn.grid()
 
-    def create_profile(self, u):
-        pname = self.userfield.get()
-        os.mkdir(u)
-        p = player.PlayerInfo(u, pname)
-        self.select_race(p)
+    def create_profile(self):
+        c = player.CreatePlayer(self.pname)
+        self.select_race(c)
         # Destroy the newgameprompt
         self.newgamePrompt.destroy()
 
-    def select_race(self, p):
+    def select_race(self, c):
         # Create window
         self.selectrace = tkinter.Toplevel(self)
         self.selectrace.title()
@@ -119,29 +128,21 @@ class Login(tkinter.Tk):
         labelTop = tkinter.Label(self.selectrace, anchor="w", fg="black", text="Choose Your Race")
         labelTop.grid(column=0, row=0, columnspan=4)
         # Buttons
-        humanBtn = tkinter.Button(self.selectrace, text="Human", command=lambda: self.button_set_race(p, "Human"))
+        humanBtn = tkinter.Button(self.selectrace, text="Human", command=lambda: self.button_set_race(c, "Human"))
         humanBtn.grid(sticky="we", columnspan=5)
-        orcBtn = tkinter.Button(self.selectrace, text="Orc", command=lambda: self.button_set_race(p, "Orc"))
+        orcBtn = tkinter.Button(self.selectrace, text="Orc", command=lambda: self.button_set_race(c, "Orc"))
         orcBtn.grid(sticky="we", columnspan=5)
-        elfBtn = tkinter.Button(self.selectrace, text="Elf", command=lambda: self.button_set_race(p, "Elf"))
+        elfBtn = tkinter.Button(self.selectrace, text="Elf", command=lambda: self.button_set_race(c, "Elf"))
         elfBtn.grid(sticky="we", columnspan=5)
-        dwarfBtn = tkinter.Button(self.selectrace, text="Dwarf", command=lambda: self.button_set_race(p, "Dwarf"))
+        dwarfBtn = tkinter.Button(self.selectrace, text="Dwarf", command=lambda: self.button_set_race(c, "Dwarf"))
         dwarfBtn.grid(sticky="we", columnspan=5)
 
-    def button_set_race(self, p, race):
-        p.set_race(race)
-        # Test output
-        # print("Testing in button_set_race\n-----------------")
-        # print(p.printinfo())
-        # print("---------------\n")
-        # print(p.Name)
-        # p.FormatInfo()
-        # print(p.printinfo())
-
-        # Create Base class with new profile and destroy Login class
-        # p.FormatInfo()
-        # Base(None, p)
-        # self.destroy()
+    def button_set_race(self, c, race):
+        # Initialize game and player then start the game
+        c.initialize_game(race)
+        c.initialize_player()
+        Base(None)
+        self.destroy()
 
 # Main method runs when base.py is run
 if __name__ == "__main__":
