@@ -1,22 +1,24 @@
-import settings, os, player, time
+import settings, os, player
 import tkinter
 
 
 # Main player screen. Used after Login is successful
 class Base(tkinter.Tk):
     # Base class constructor
-    def __init__(self, master):
+    def __init__(self, master, savepath):
         tkinter.Tk.__init__(self, master)
+        self.savepath = savepath
         self.master = master
         self.main_window()
 
     # Accepts the PlayerInfo object from log_in after a user successfuly logs in
     def main_window(self):
+        c = player.PlayerInfo(self.savepath)
         # Create window
         self.title("This is the BASE window")
         self.grid()
         self.geometry("+600+350")
-        labelTop = tkinter.Label(self, anchor="w", fg="black", text="Your Stats")
+        labelTop = tkinter.Label(self, anchor="w", fg="black", text="CoC - Stats")
         labelTop.grid(column=0, row=0, columnspan=4)
         # Left column
         labelRace = tkinter.Label(self, anchor="w", fg="black", text="Race: ")
@@ -27,12 +29,12 @@ class Base(tkinter.Tk):
         labelAstr.grid(column=0, row=3)
         labelAdef = tkinter.Label(self, anchor="w", fg="black", text="Army Defense: ")
         labelAdef.grid(column=0, row=4)
-        labelSpyStr = tkinter.Label(self, anchor="w", fg="black", text="Spy Strength: ")
+        labelSpyStr = tkinter.Label(self, anchor="w", fg="black", text="Espionage Strength: ")
         labelSpyStr.grid(column=0, row=5)
-        labelSpyDef = tkinter.Label(self, anchor="w", fg="black", text="Spy Defense: ")
+        labelSpyDef = tkinter.Label(self, anchor="w", fg="black", text="Espionage Defense: ")
         labelSpyDef.grid(column=0, row=6)
         # Right column
-        dataRace = tkinter.Label(self, anchor="e", text="Race")
+        dataRace = tkinter.Label(self, anchor="e", text=c.playername)
         dataRace.grid(column=1, row=1)
         dataArmy = tkinter.Label(self, anchor="e", text="Army Size")
         dataArmy.grid(column=1, row=2)
@@ -79,20 +81,11 @@ class Login(tkinter.Tk):
     def load_game(self):
         # Variables
         self.pname = self.userfield.get().lower()
-        u = settings.SAVEGAME_PATH + "/" + self.pname
+        savepath = settings.SAVEGAME_PATH + "/" + self.pname
         # Check if player's profile exists when logging in. If not, create it.
-        #
-        #
-        #
-        # Come back to do this
-        #
-        #
-        #
-        #
-        if os.path.isdir(u):
-            # Create Player object
+        if os.path.isdir(savepath):
             # Create window from Base and destroy Login
-            Base(None)
+            Base(None, savepath)
             self.destroy()
         else:
             # Start the new game process
@@ -141,7 +134,7 @@ class Login(tkinter.Tk):
         # Initialize game and player then start the game
         c.initialize_game(race)
         c.initialize_player()
-        Base(None)
+        Base(None, c.savepath)
         self.destroy()
 
 # Main method runs when base.py is run

@@ -1,23 +1,51 @@
 import sqlite3 as lite
 import os, settings
 
-
+# Class used for AFTER game creation. Use CreatePlayer() if a save doesn't exist.
 class PlayerInfo(object):
-    pass
 
+    # Accepts an existing player's savegame path
+    def __init__(self, savepath):
+        self.savepath = savepath
+        self.gameinfo_path = savepath+'/gameinfo.db'
+        self.playerinfo_path = savepath+'/playerinfo.db'
+        # gameinfo.db variables
+        self.playername, self.race = "", ""
+        # playerinfo.db variables
+        self.armyCount, self.soldierCount, self.guardCount = 0, 0, 0
+        self.espionageCount, self.spyCount, self.sentryCount = 0, 0, 0
+        self.siegeCount = 0
+
+        # Update info from DB
+        self.update_gameinfo()
+
+    def get_name(self):
+        pass
+
+    def update_gameinfo(self):
+        print("Running update_gameinfo")
+        # Create db connection
+        con = lite.connect(self.gameinfo_path)
+        with con:
+            cur = con.cursor()
+            cur.execute('SELECT Name from Players WHERE Id=1')
+            self.playername = cur.fetchone()
+
+
+# Class used to create and initialize a game if it doesn't exist.
 class CreatePlayer():
 
     def __init__(self, pname):
         self.pname = pname
-        self.filepath = settings.SAVEGAME_PATH + "/" + pname
+        self.savepath = settings.SAVEGAME_PATH + "/" + pname
 
     # Checks to see if database exist and creates all database needed for a fresh game
     def initialize_game(self, race):
-        path = self.filepath+'/gameinfo.db'
+        path = self.savepath + '/gameinfo.db'
         if os.path.isfile(path):
             print("This database already exists!")
         else:
-            os.makedirs(self.filepath)
+            os.makedirs(self.savepath)
             con = lite.connect(path)
             with con:
                 cur = con.cursor()
@@ -27,7 +55,7 @@ class CreatePlayer():
 
     # Checks to see if database exist for the player and creates them
     def initialize_player(self):
-        path = self.filepath+'/playerinfo.db'
+        path = self.savepath + '/playerinfo.db'
         if os.path.isfile(path):
             print("This database already exists!")
         else:
@@ -38,8 +66,8 @@ class CreatePlayer():
                 cur.execute("CREATE TABLE UnitInfo(Id INT, Name TEXT, BaseStrength INT, BaseHP INT, Amount INT)")
                 cur.execute("INSERT INTO UnitInfo VALUES(1, 'Soldier', 5, 20, 20)")
                 cur.execute("INSERT INTO UnitInfo VALUES(1, 'Guard', 5, 20, 20)")
+                cur.execute("INSERT INTO UnitInfo VALUES(2, 'Spy', 5, 20, 10)")
                 cur.execute("INSERT INTO UnitInfo VALUES(2, 'Sentry', 5, 20, 10)")
-                cur.execute("INSERT INTO UnitInfo VALUES(2, 'Lookout', 5, 20, 10)")
                 cur.execute("INSERT INTO UnitInfo VALUES(3, 'Siege', 15, 50, 5)")
                 # Equipment
                 cur.execute("CREATE TABLE SoldierEquipment(Id INT, Name TEXT, Modifier INT, Amount INT)")
@@ -69,7 +97,7 @@ class CreatePlayer():
 
 # Run player.py to run these tests
 if __name__ == "__main__":
-    c = CreatePlayer("ahhahahahasjdjasdjasdjasdj")
-    print(c.filepath)
-    c.initialize_game("Elf")
-    c.initialize_player()
+    c = PlayerInfo("/home/cody/Desktop/Projects/ClonesOfChaos/SaveGames/root")
+    print(c.savepath)
+    c.update_gameinfo()
+    print(c.playername)
