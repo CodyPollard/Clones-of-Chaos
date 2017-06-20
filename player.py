@@ -1,6 +1,7 @@
 import sqlite3 as lite
 import os, settings
 
+
 # Class used for AFTER game creation. Use CreatePlayer() if a save doesn't exist.
 class PlayerInfo(object):
 
@@ -15,9 +16,13 @@ class PlayerInfo(object):
         self.armyCount, self.soldierCount, self.guardCount = 0, 0, 0
         self.espionageCount, self.spyCount, self.sentryCount = 0, 0, 0
         self.siegeCount = 0
+        # Attack and Defense stats
+        self.soldierStr, self.guardStr = 0, 0
+        self.spyStr, self.sentryStr = 0, 0
 
         # Update info from DB
         self.update_gameinfo()
+        self.update_playerinfo()
 
     def get_name(self):
         pass
@@ -29,7 +34,27 @@ class PlayerInfo(object):
         with con:
             cur = con.cursor()
             cur.execute('SELECT Name from Players WHERE Id=1')
-            self.playername = cur.fetchone()
+            self.playername = ''.join(cur.fetchone())
+            cur.execute('SELECT Race from Players WHERE Id=1')
+            self.race = cur.fetchone()
+
+    def update_playerinfo(self):
+        print("Running update_playerinfo")
+        # Create db connection
+        con = lite.connect(self.playerinfo_path)
+        with con:
+            cur = con.cursor()
+            # Update army counts
+            cur.execute('SELECT sum(Amount) from UnitInfo WHERE Id=1')
+            self.armyCount = cur.fetchone()
+            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Soldier"')
+            self.soldierStr = cur.fetchone()
+            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Guard"')
+            self.guardStr = cur.fetchone()
+            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Spy"')
+            self.spyStr = cur.fetchone()
+            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Sentry"')
+            self.sentryStr = cur.fetchone()
 
 
 # Class used to create and initialize a game if it doesn't exist.
@@ -99,5 +124,4 @@ class CreatePlayer():
 if __name__ == "__main__":
     c = PlayerInfo("/home/cody/Desktop/Projects/ClonesOfChaos/SaveGames/root")
     print(c.savepath)
-    c.update_gameinfo()
-    print(c.playername)
+    c.update_playerinfo()

@@ -15,10 +15,10 @@ class Base(tkinter.Tk):
     def main_window(self):
         c = player.PlayerInfo(self.savepath)
         # Create window
-        self.title("This is the BASE window")
+        self.title("Clones of Chaos")
         self.grid()
         self.geometry("+600+350")
-        labelTop = tkinter.Label(self, anchor="w", fg="black", text="CoC - Stats")
+        labelTop = tkinter.Label(self, anchor="w", fg="black", text="CoC - "+c.playername)
         labelTop.grid(column=0, row=0, columnspan=4)
         # Left column
         labelRace = tkinter.Label(self, anchor="w", fg="black", text="Race: ")
@@ -34,17 +34,17 @@ class Base(tkinter.Tk):
         labelSpyDef = tkinter.Label(self, anchor="w", fg="black", text="Espionage Defense: ")
         labelSpyDef.grid(column=0, row=6)
         # Right column
-        dataRace = tkinter.Label(self, anchor="e", text=c.playername)
+        dataRace = tkinter.Label(self, anchor="e", text=c.race)
         dataRace.grid(column=1, row=1)
-        dataArmy = tkinter.Label(self, anchor="e", text="Army Size")
+        dataArmy = tkinter.Label(self, anchor="e", text=c.armyCount)
         dataArmy.grid(column=1, row=2)
-        dataAstr = tkinter.Label(self, anchor="e", text="Army Strength")
+        dataAstr = tkinter.Label(self, anchor="e", text=c.soldierStr)
         dataAstr.grid(column=1, row=3)
-        dataAdef = tkinter.Label(self, anchor="e", text="Army Def")
+        dataAdef = tkinter.Label(self, anchor="e", text=c.guardStr)
         dataAdef.grid(column=1, row=4)
-        dataSpyStr = tkinter.Label(self, anchor="e", text="Spy Strength")
+        dataSpyStr = tkinter.Label(self, anchor="e", text=c.spyStr)
         dataSpyStr.grid(column=1, row=5)
-        dataSpyDef = tkinter.Label(self, anchor="e", text="Spy Def")
+        dataSpyDef = tkinter.Label(self, anchor="e", text=c.sentryStr)
         dataSpyDef.grid(column=1, row=6)
 
 
