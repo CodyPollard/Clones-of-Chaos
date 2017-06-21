@@ -18,34 +18,69 @@ class Base(tkinter.Tk):
         self.title("Clones of Chaos")
         self.grid()
         self.geometry("+600+350")
-        labelTop = tkinter.Label(self, anchor="w", fg="black", text="CoC - "+c.playername)
+        # Create frame for widgets
+        frame = tkinter.Frame(self)
+        frame.grid()
+        labelTop = tkinter.Label(frame, anchor="w", fg="black", text="CoC - "+c.playername)
         labelTop.grid(column=0, row=0, columnspan=4)
         # Left column
-        labelRace = tkinter.Label(self, anchor="w", fg="black", text="Race: ")
+        labelRace = tkinter.Label(frame, fg="black", text="Race: ")
         labelRace.grid(column=0, row=1)
-        labelArmy = tkinter.Label(self, anchor="w", fg="black", text="Army Size: ")
+        labelArmy = tkinter.Label(frame, fg="black", text="Army Size: ")
         labelArmy.grid(column=0, row=2)
-        labelAstr = tkinter.Label(self, anchor="w", fg="black", text="Army Strength: ")
+        labelAstr = tkinter.Label(frame, fg="black", text="Army Strength: ")
         labelAstr.grid(column=0, row=3)
-        labelAdef = tkinter.Label(self, anchor="w", fg="black", text="Army Defense: ")
+        labelAdef = tkinter.Label(frame, fg="black", text="Army Defense: ")
         labelAdef.grid(column=0, row=4)
-        labelSpyStr = tkinter.Label(self, anchor="w", fg="black", text="Espionage Strength: ")
+        labelSpyStr = tkinter.Label(frame, fg="black", text="Espionage Strength: ")
         labelSpyStr.grid(column=0, row=5)
-        labelSpyDef = tkinter.Label(self, anchor="w", fg="black", text="Espionage Defense: ")
+        labelSpyDef = tkinter.Label(frame, fg="black", text="Espionage Defense: ")
         labelSpyDef.grid(column=0, row=6)
         # Right column
-        dataRace = tkinter.Label(self, anchor="e", text=c.race)
+        dataRace = tkinter.Label(frame, text=c.race)
         dataRace.grid(column=1, row=1)
-        dataArmy = tkinter.Label(self, anchor="e", text=c.armyCount)
+        dataArmy = tkinter.Label(frame, text=c.armyCount)
         dataArmy.grid(column=1, row=2)
-        dataAstr = tkinter.Label(self, anchor="e", text=c.soldierStr)
+        dataAstr = tkinter.Label(frame, text=c.soldierStr)
         dataAstr.grid(column=1, row=3)
-        dataAdef = tkinter.Label(self, anchor="e", text=c.guardStr)
+        dataAdef = tkinter.Label(frame, text=c.guardStr)
         dataAdef.grid(column=1, row=4)
-        dataSpyStr = tkinter.Label(self, anchor="e", text=c.spyStr)
+        dataSpyStr = tkinter.Label(frame, text=c.spyStr)
         dataSpyStr.grid(column=1, row=5)
-        dataSpyDef = tkinter.Label(self, anchor="e", text=c.sentryStr)
+        dataSpyDef = tkinter.Label(frame, text=c.sentryStr)
         dataSpyDef.grid(column=1, row=6)
+        # menu_right column 2
+        unitinfoBtn = tkinter.Button(frame, text="Unit Info", command=lambda: self.unit_info(frame))
+        unitinfoBtn.grid(column=2, row=1, columnspan=2, sticky="we")
+        unitinfoBtn = tkinter.Button(frame, text="Equipment Info")
+        unitinfoBtn.grid(column=2, row=2, columnspan=2, sticky="we")
+        castleinfoBtn = tkinter.Button(frame, text="Castle Info")
+        castleinfoBtn.grid(column=2, row=3, columnspan=2, sticky="we")
+
+    def unit_info(self, f):
+        f.destroy()
+        frame = tkinter.Frame(self)
+        frame.grid()
+        # Top
+        labelTop = tkinter.Label(frame, fg="black", text="CoC - Unit Info")
+        labelTop.grid(column=0, row=0, columnspan=4)
+        unitsLbl = tkinter.Label(frame, fg="black", text="Units")
+        unitsLbl.grid(column=0, row=1, padx=10)
+        strengthLbl = tkinter.Label(frame, fg="black", text="Base Strength")
+        strengthLbl.grid(column=1, row=1, padx=10)
+        totalLbl = tkinter.Label(frame, fg="black", text="Amount")
+        totalLbl.grid(column=2, row=1, padx=10)
+        # Row 2
+        soldierLbl = tkinter.Label(frame, fg="black", text="Soldier")
+        soldierLbl.grid(column=0, row=2)
+        soldierStrLbl = tkinter.Label(frame, fg="black", text="100")
+        soldierStrLbl.grid(column=1, row=2)
+        soldierTotalLbl = tkinter.Label(frame, fg="black", text="10000")
+        soldierTotalLbl.grid(column=2, row=2)
+
+
+
+
 
 
 # Login class handles creation and continuation of player profiles
@@ -65,6 +100,7 @@ class Login(tkinter.Tk):
         self.grid()
         self.minsize(width=0, height=0)
         self.columnconfigure(0, weight=1)
+        self.bind('<Return>', self.load_game)
         # Create widgets below
         label = tkinter.Label(self, anchor="w", fg="black", text="Clones of Chaos")
         label.grid(column=0, row=0, columnspan=2, sticky="")
@@ -78,7 +114,7 @@ class Login(tkinter.Tk):
         login.grid(column=0, row=2, columnspan=2, sticky="we")
 
 
-    def load_game(self):
+    def load_game(self, event):
         # Variables
         self.pname = self.userfield.get().lower()
         savepath = settings.SAVEGAME_PATH + "/" + self.pname
