@@ -1,4 +1,5 @@
 import sqlite3 as lite
+import unitinfo as unit
 import os, settings
 
 
@@ -53,6 +54,7 @@ class PlayerInfo(object):
             # Assign values from list
             self.soldierCount = self.unitCounts[0]
             self.guardCount = self.unitCounts[1]
+            self.armyCount = self.guardCount+self.soldierCount
             # Clear the list
             self.unitCounts = []
             # Update espionage counts
@@ -63,11 +65,13 @@ class PlayerInfo(object):
             # Assign values from list
             self.spyCount = self.unitCounts[0]
             self.sentryCount = self.unitCounts[1]
-            #
-            #
-            # Assign unit strengths here
-            #
-            #
+            # Assign unit strengths
+            self.soldierStr = self.soldierCount * unit.Soldier.strength
+            self.guardStr = self.guardCount * unit.Guard.strength
+            self.spyStr = self.spyCount * unit.Spy.strength
+            self.sentryStr = self.sentryCount * unit.Sentry.strength
+
+
 
 
 # Class used to create and initialize a game if it doesn't exist.

@@ -84,8 +84,20 @@ class Base(tkinter.Tk):
         guardStrLbl.grid(column=1, row=3)
         guardCountLbl = tkinter.Label(frame, fg="black", text=p.guardCount)
         guardCountLbl.grid(column=2, row=3)
-
-
+        # Row 4
+        spyLbl = tkinter.Label(frame, fg="black", text="Spy")
+        spyLbl.grid(column=0, row=4)
+        spyStrLbl = tkinter.Label(frame, fg="black", text=p.spyStr)
+        spyStrLbl.grid(column=1, row=4)
+        spyCountLbl = tkinter.Label(frame, fg="black", text=p.spyCount)
+        spyCountLbl.grid(column=2, row=4)
+        # Row 5
+        sentryLbl = tkinter.Label(frame, fg="black", text="Sentry")
+        sentryLbl.grid(column=0, row=5)
+        sentryStrLbl = tkinter.Label(frame, fg="black", text=p.sentryStr)
+        sentryStrLbl.grid(column=1, row=5)
+        sentryCountLbl = tkinter.Label(frame, fg="black", text=p.sentryCount)
+        sentryCountLbl.grid(column=2, row=5)
 
 
 

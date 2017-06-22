@@ -19,8 +19,22 @@ class Guard():
     strength = 5
     hp = 20
 
+# Spy
+class Spy():
+    description = "Standard offensive espionage unit available to all players from the start. Spies are used \n" \
+                  "to gain intelligence on an enemy and in some cases can sabotage enemy Guard's weapons. A \n" \
+                  "sabotaged weapon will break when used giving the guard no bonus damage. It will not show \n" \
+                  "up as broken until the unit uses it in battle giving you an offensive edge."
+    strength = 5
+    hp = 20
 
-
+# Sentry
+class Sentry():
+    description = "Standard defensive espionage unit available to all players from the start. Sentries are used \n" \
+                  "to defend against enemy spies and can sometimes capture multiple spies given a large enough \n" \
+                  "strength advantage."
+    strength = 5
+    hp = 20
 
 
 
