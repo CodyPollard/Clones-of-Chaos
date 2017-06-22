@@ -13,6 +13,7 @@ class PlayerInfo(object):
         # gameinfo.db variables
         self.playername, self.race = "", ""
         # playerinfo.db variables
+        self.unitCounts = list()
         self.armyCount, self.soldierCount, self.guardCount = 0, 0, 0
         self.espionageCount, self.spyCount, self.sentryCount = 0, 0, 0
         self.siegeCount = 0
@@ -45,16 +46,28 @@ class PlayerInfo(object):
         with con:
             cur = con.cursor()
             # Update army counts
-            cur.execute('SELECT sum(Amount) from UnitInfo WHERE Id=1')
-            self.armyCount = cur.fetchone()
-            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Soldier"')
-            self.soldierStr = cur.fetchone()
-            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Guard"')
-            self.guardStr = cur.fetchone()
-            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Spy"')
-            self.spyStr = cur.fetchone()
-            cur.execute('SELECT sum(Amount*BaseStrength) from UnitInfo WHERE Name="Sentry"')
-            self.sentryStr = cur.fetchone()
+            cur.execute('SELECT Amount from UnitInfo WHERE Id=1')
+            record = cur.fetchall()
+            for result in record:
+                self.unitCounts.append(result[0])
+            # Assign values from list
+            self.soldierCount = self.unitCounts[0]
+            self.guardCount = self.unitCounts[1]
+            # Clear the list
+            self.unitCounts = []
+            # Update espionage counts
+            cur.execute('SELECT Amount from UnitInfo WHERE Id=2')
+            record = cur.fetchall()
+            for result in record:
+                self.unitCounts.append(result[0])
+            # Assign values from list
+            self.spyCount = self.unitCounts[0]
+            self.sentryCount = self.unitCounts[1]
+            #
+            #
+            # Assign unit strengths here
+            #
+            #
 
 
 # Class used to create and initialize a game if it doesn't exist.
@@ -89,7 +102,7 @@ class CreatePlayer():
                 cur = con.cursor()
                 # Units
                 cur.execute("CREATE TABLE UnitInfo(Id INT, Name TEXT, BaseStrength INT, BaseHP INT, Amount INT)")
-                cur.execute("INSERT INTO UnitInfo VALUES(1, 'Soldier', 5, 20, 20)")
+                cur.execute("INSERT INTO UnitInfo VALUES(1, 'Soldier', 5, 20, 50)")
                 cur.execute("INSERT INTO UnitInfo VALUES(1, 'Guard', 5, 20, 20)")
                 cur.execute("INSERT INTO UnitInfo VALUES(2, 'Spy', 5, 20, 10)")
                 cur.execute("INSERT INTO UnitInfo VALUES(2, 'Sentry', 5, 20, 10)")

@@ -13,7 +13,7 @@ class Base(tkinter.Tk):
 
     # Accepts the PlayerInfo object from log_in after a user successfuly logs in
     def main_window(self):
-        c = player.PlayerInfo(self.savepath)
+        p = player.PlayerInfo(self.savepath)
         # Create window
         self.title("Clones of Chaos")
         self.grid()
@@ -21,7 +21,7 @@ class Base(tkinter.Tk):
         # Create frame for widgets
         frame = tkinter.Frame(self)
         frame.grid()
-        labelTop = tkinter.Label(frame, anchor="w", fg="black", text="CoC - "+c.playername)
+        labelTop = tkinter.Label(frame, anchor="w", fg="black", text="CoC - "+p.playername)
         labelTop.grid(column=0, row=0, columnspan=4)
         # Left column
         labelRace = tkinter.Label(frame, fg="black", text="Race: ")
@@ -37,27 +37,27 @@ class Base(tkinter.Tk):
         labelSpyDef = tkinter.Label(frame, fg="black", text="Espionage Defense: ")
         labelSpyDef.grid(column=0, row=6)
         # Right column
-        dataRace = tkinter.Label(frame, text=c.race)
+        dataRace = tkinter.Label(frame, text=p.race)
         dataRace.grid(column=1, row=1)
-        dataArmy = tkinter.Label(frame, text=c.armyCount)
+        dataArmy = tkinter.Label(frame, text=p.armyCount)
         dataArmy.grid(column=1, row=2)
-        dataAstr = tkinter.Label(frame, text=c.soldierStr)
+        dataAstr = tkinter.Label(frame, text=p.soldierStr)
         dataAstr.grid(column=1, row=3)
-        dataAdef = tkinter.Label(frame, text=c.guardStr)
+        dataAdef = tkinter.Label(frame, text=p.guardStr)
         dataAdef.grid(column=1, row=4)
-        dataSpyStr = tkinter.Label(frame, text=c.spyStr)
+        dataSpyStr = tkinter.Label(frame, text=p.spyStr)
         dataSpyStr.grid(column=1, row=5)
-        dataSpyDef = tkinter.Label(frame, text=c.sentryStr)
+        dataSpyDef = tkinter.Label(frame, text=p.sentryStr)
         dataSpyDef.grid(column=1, row=6)
         # menu_right column 2
-        unitinfoBtn = tkinter.Button(frame, text="Unit Info", command=lambda: self.unit_info(frame))
+        unitinfoBtn = tkinter.Button(frame, text="Unit Info", command=lambda: self.unit_info(frame, p))
         unitinfoBtn.grid(column=2, row=1, columnspan=2, sticky="we")
         unitinfoBtn = tkinter.Button(frame, text="Equipment Info")
         unitinfoBtn.grid(column=2, row=2, columnspan=2, sticky="we")
         castleinfoBtn = tkinter.Button(frame, text="Castle Info")
         castleinfoBtn.grid(column=2, row=3, columnspan=2, sticky="we")
 
-    def unit_info(self, f):
+    def unit_info(self, f, p):
         f.destroy()
         frame = tkinter.Frame(self)
         frame.grid()
@@ -66,18 +66,24 @@ class Base(tkinter.Tk):
         labelTop.grid(column=0, row=0, columnspan=4)
         unitsLbl = tkinter.Label(frame, fg="black", text="Units")
         unitsLbl.grid(column=0, row=1, padx=10)
-        strengthLbl = tkinter.Label(frame, fg="black", text="Base Strength")
+        strengthLbl = tkinter.Label(frame, fg="black", text="Total Strength")
         strengthLbl.grid(column=1, row=1, padx=10)
-        totalLbl = tkinter.Label(frame, fg="black", text="Amount")
-        totalLbl.grid(column=2, row=1, padx=10)
+        countLbl = tkinter.Label(frame, fg="black", text="Amount")
+        countLbl.grid(column=2, row=1, padx=10)
         # Row 2
         soldierLbl = tkinter.Label(frame, fg="black", text="Soldier")
         soldierLbl.grid(column=0, row=2)
-        soldierStrLbl = tkinter.Label(frame, fg="black", text="100")
+        soldierStrLbl = tkinter.Label(frame, fg="black", text=p.soldierStr)
         soldierStrLbl.grid(column=1, row=2)
-        soldierTotalLbl = tkinter.Label(frame, fg="black", text="10000")
-        soldierTotalLbl.grid(column=2, row=2)
-
+        soldierCountLbl = tkinter.Label(frame, fg="black", text=p.soldierCount)
+        soldierCountLbl.grid(column=2, row=2)
+        # Row 3
+        guardLbl = tkinter.Label(frame, fg="black", text="Guard")
+        guardLbl.grid(column=0, row=3)
+        guardStrLbl = tkinter.Label(frame, fg="black", text=p.guardStr)
+        guardStrLbl.grid(column=1, row=3)
+        guardCountLbl = tkinter.Label(frame, fg="black", text=p.guardCount)
+        guardCountLbl.grid(column=2, row=3)
 
 
 
