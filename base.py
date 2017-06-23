@@ -98,7 +98,13 @@ class Base(tkinter.Tk):
         sentryStrLbl.grid(column=1, row=5)
         sentryCountLbl = tkinter.Label(frame, fg="black", text=p.sentryCount)
         sentryCountLbl.grid(column=2, row=5)
+        # Return
+        returnBtn = tkinter.Button(frame, text="Return", command=lambda: self.reload_main(frame))
+        returnBtn.grid(column=0, row=6, columnspan=4, sticky="we")
 
+    def reload_main(self, f):
+        f.destroy()
+        self.main_window()
 
 
 # Login class handles creation and continuation of player profiles
