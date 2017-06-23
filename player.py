@@ -12,7 +12,7 @@ class PlayerInfo(object):
         self.gameinfo_path = savepath+'/gameinfo.db'
         self.playerinfo_path = savepath+'/playerinfo.db'
         # gameinfo.db variables
-        self.playername, self.race = "", ""
+        self.playername, self.race, self.gold = "", "", ""
         # playerinfo.db variables
         self.unitCounts = list()
         self.armyCount, self.soldierCount, self.guardCount = 0, 0, 0
@@ -38,7 +38,9 @@ class PlayerInfo(object):
             cur.execute('SELECT Name from Players WHERE Id=1')
             self.playername = ''.join(cur.fetchone())
             cur.execute('SELECT Race from Players WHERE Id=1')
-            self.race = cur.fetchone()
+            self.race = ''.join(cur.fetchone())
+            cur.execute('SELECT Gold from Players WHERE Id=1')
+            self.gold = ''.join(cur.fetchone())
 
     def update_playerinfo(self):
         print("Running update_playerinfo")
@@ -91,8 +93,8 @@ class CreatePlayer():
             con = lite.connect(path)
             with con:
                 cur = con.cursor()
-                cur.execute("CREATE TABLE Players(Id INT, Name TEXT, Race TEXT)")
-                cur.execute("INSERT INTO Players VALUES(1, ?, ?)", (self.pname, race))
+                cur.execute("CREATE TABLE Players(Id INT, Name TEXT, Race TEXT, Gold TEXT)")
+                cur.execute("INSERT INTO Players VALUES(1, ?, ?, '5000')", (self.pname, race))
         print("Game Created!")
 
     # Checks to see if database exist for the player and creates them
